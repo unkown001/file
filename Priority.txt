@@ -1,0 +1,114 @@
+import java.util.*;
+
+class Priority
+{
+	public static void main(String arg[])
+	{
+		Scanner sc = new Scanner(System.in);
+		
+		int temp, p[], pri[], arrv[], wt[], tat[], brust[], awt, atat,n;
+		
+		p = new int[10];
+		pri = new int[10];
+		arrv =  new int[10];
+		wt =  new int[10];
+		tat =  new int[10];
+		brust =  new int[10];
+		
+		awt = 0;
+		atat = 0;
+		
+		System.out.println("\nEnter No of process : ");
+		n = sc.nextInt();
+		
+		for(int i = 0; i<n; i++)
+		{		
+		  System.out.println("\nEnter Arrival Time : ");
+		  arrv[i] = sc.nextInt();
+         
+          System.out.println("\nEnter Priority of Task : ");
+          pri[i] = sc.nextInt();
+
+          System.out.println("\nEnter Brust Time : ");
+          brust[i] = sc.nextInt();		  
+		}
+		
+		for(int i = 0; i<n-1; i++)
+		{
+			for(int j=i+1; j<n; j++)
+	  		{  
+		       if(pri[i]>pri[j])
+			   {   
+  				 
+				 temp = pri[i];
+				 pri[i] = pri[j];
+				 pri[j] = temp;
+				 
+				 temp = p[i];
+				 p[i] = p[j];
+				 p[j] = temp;
+				 
+				 temp = arrv[i];
+				 arrv[i] = arrv[j];
+				 arrv[j] = temp;
+				 
+				 temp = brust[i];
+				 brust[i] = brust[j];
+				 brust[j] = temp;
+			   } 
+			   
+			   if(pri[i] == pri[j])
+			   {
+				   if(arrv[i] > arrv[j])
+				   {
+					  temp = pri[i];
+				      pri[i] = pri[j];
+				      pri[j] = temp;
+				 
+				      temp = p[i];
+				      p[i] = p[j];
+				      p[j] = temp;
+				 
+				      temp = arrv[i];
+				      arrv[i] = arrv[j];
+				      arrv[j] = temp;
+				 
+				      temp = brust[i];
+				      brust[i] = brust[j];
+				      brust[j] = temp;  
+				   }   
+			   }   
+			}
+		
+		}
+		
+		wt[0] = 0;
+		tat[0] = wt[0]+brust[0];
+		atat = 0;
+		awt = 0;
+				
+		for(int i=1; i<n; i++)
+		{
+			wt[i] = tat[i-1];
+            tat[i] = wt[i]+brust[i];			
+		}	
+		
+		for(int i=0; i<n; i++)
+		{
+			atat += tat[i];
+			awt += wt[i]; 
+		}
+		
+		atat /= n;
+		awt /= n;
+		
+		System.out.println("Process\tPriorities\tBrust Time\tT A T\tW T");
+		
+		for(int i=0; i<n; i++)
+		{
+			System.out.println((i+1)+"\t"+pri[i]+"\t\t"+brust[i]+"\t\t"+tat[i]+"\t"+wt[i]);
+		}
+		System.out.println("Avarage Turn Around Time : "+atat);
+		System.out.println("Avarage Waiting Time : "+awt);
+	}
+}
